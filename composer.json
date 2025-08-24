@@ -2,7 +2,14 @@
     "name": "luadotsh/lua",
     "type": "project",
     "description": "Open source, scalable URL shortener for modern teams",
-    "keywords": ["laravel", "php", "url-shortener", "short-url", "shortener", "short-links"],
+    "keywords": [
+        "laravel",
+        "php",
+        "url-shortener",
+        "short-url",
+        "shortener",
+        "short-links"
+    ],
     "license": "AGPL-3.0-or-later",
     "require": {
         "php": "^8.2",
@@ -48,8 +55,7 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@php -r \"if (shell_exec('command -v git')) { shell_exec('git config core.hooksPath .husky'); }\""
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -70,7 +76,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                 "laravel/telescope"
+                "laravel/telescope"
             ]
         }
     },
