@@ -44,29 +44,32 @@ class LocalDevelopmentSeeder extends Seeder
 
         // create some links
         $links = Link::factory()
-            ->count(100)
+            ->count(10)
             ->create([
                 'workspace_id' => $workspace->id
             ]);
 
-        $dates = CarbonPeriod::create(now()->subMonths(4), '60 minutes', now());
+        echo "Creating LinkStat records for " . $links->count() . " links...\n";
 
-        foreach ($dates as $date) {
+        // Create a reasonable amount of stats for testing (10-50 per link)
+        foreach ($links as $index => $link) {
+            $statsCount = rand(10, 50);
 
-            $link = $links->random();
+            // Create stats for this link using the factory
+            LinkStat::factory()
+                ->count($statsCount)
+                ->create([
+                    'link_id' => $link->id,
+                    'workspace_id' => $workspace->id,
+                    'created_at' => now()->subDays(rand(1, 30))
+                ]);
 
-            // create some stats
-            LinkStat::factory([
-                'link_id' => $link->id,
-                'workspace_id' => $workspace->id,
-                'created_at' => $date
-            ])
-                ->count(1)
-                ->create();
+            // Update the link click count
+            $link->update(['clicks' => $statsCount]);
 
-            // update the link
-            $link->clicks = LinkStat::where('link_id', $link->id)->count();
-            $link->save();
+            echo "Created $statsCount stats for link " . ($index + 1) . "/" . $links->count() . "\n";
         }
+
+        echo "Local development seeding completed successfully!\n";
     }
 }
